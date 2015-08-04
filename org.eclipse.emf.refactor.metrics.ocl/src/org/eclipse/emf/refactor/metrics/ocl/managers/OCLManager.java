@@ -13,7 +13,7 @@ import org.eclipse.ocl.helper.OCLHelper;
 public class OCLManager {
 
 	public static double evaluateOCLOnContextObject(EObject contextObject, String expression) {
-		double result;
+		double result = 0.0;
 
 		if (contextObject == null) {
 			return 0.0;
@@ -36,8 +36,6 @@ public class OCLManager {
 				result = (Long) oclResult;
 			} else if (oclResult instanceof Float) {
 				result = (Float) oclResult;
-			} else {
-				result = 0.0;
 			}
 			
 			ocl.dispose();
@@ -46,6 +44,6 @@ public class OCLManager {
 			e.printStackTrace();
 		}
 
-		return 0.0;
+		return result;
 	}
 }
