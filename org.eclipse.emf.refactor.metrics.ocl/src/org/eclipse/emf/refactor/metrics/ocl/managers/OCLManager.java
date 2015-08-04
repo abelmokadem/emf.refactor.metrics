@@ -10,30 +10,42 @@ import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
 
-
 public class OCLManager {
-	private static final OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-	private static final OCLHelper<EClassifier, ?, ?, Constraint> helper = ocl.createOCLHelper();
-	
-	public static double evaluateOCLOnContextObject(EObject contextObject, String expression){
-		if(contextObject == null)
+
+	public static double evaluateOCLOnContextObject(EObject contextObject, String expression) {
+		double result;
+
+		if (contextObject == null) {
 			return 0.0;
+		}
+		
 		try {
+			OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl = OCL
+					.newInstance(EcoreEnvironmentFactory.INSTANCE);
+			OCLHelper<EClassifier, ?, ?, Constraint> helper = ocl.createOCLHelper();
+
 			helper.setContext(contextObject.eClass());
-		    OCLExpression<EClassifier> query = helper.createQuery(expression);
+			OCLExpression<EClassifier> query = helper.createQuery(expression);
 			Object oclResult = ocl.evaluate(contextObject, query);
-			if(oclResult instanceof Integer)
-				return (Integer)oclResult;
-			else if(oclResult instanceof Double)
-				return (Double)oclResult;
-			else if(oclResult instanceof Long)
-				return (Long)oclResult;
-			else if(oclResult instanceof Float)
-				return (Float)oclResult;
+			
+			if (oclResult instanceof Integer) {
+				result = (Integer) oclResult;
+			} else if (oclResult instanceof Double) {
+				result = (Double) oclResult;
+			} else if (oclResult instanceof Long) {
+				result = (Long) oclResult;
+			} else if (oclResult instanceof Float) {
+				result = (Float) oclResult;
+			} else {
+				result = 0.0;
+			}
+			
+			ocl.dispose();
+
 		} catch (ParserException e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0.0;
 	}
 }
