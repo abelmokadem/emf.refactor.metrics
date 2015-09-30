@@ -19,11 +19,11 @@ public class OCLManager {
 			return 0.0;
 		}
 		
+		OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl = OCL
+				.newInstance(EcoreEnvironmentFactory.INSTANCE);
+		OCLHelper<EClassifier, ?, ?, Constraint> helper = ocl.createOCLHelper();
+		
 		try {
-			OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl = OCL
-					.newInstance(EcoreEnvironmentFactory.INSTANCE);
-			OCLHelper<EClassifier, ?, ?, Constraint> helper = ocl.createOCLHelper();
-
 			helper.setContext(contextObject.eClass());
 			OCLExpression<EClassifier> query = helper.createQuery(expression);
 			Object oclResult = ocl.evaluate(contextObject, query);
@@ -37,12 +37,12 @@ public class OCLManager {
 			} else if (oclResult instanceof Float) {
 				result = (Float) oclResult;
 			}
-			
-			ocl.dispose();
 
 		} catch (ParserException e) {
 			e.printStackTrace();
 		}
+		
+		ocl.dispose();
 
 		return result;
 	}

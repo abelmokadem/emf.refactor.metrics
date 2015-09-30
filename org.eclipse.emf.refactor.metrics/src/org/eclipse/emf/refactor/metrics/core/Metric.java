@@ -86,6 +86,10 @@ public class Metric implements Comparable<Metric> {
 	public String getContext() {
 		return context;
 	}
+	
+	public String toString() {
+		return this.getName();
+	}
 
 	/**
 	 * Returns the <i>ICalculateClass</i> implementing class which contains the code
